@@ -1,0 +1,20 @@
+name: "Build player"
+description: "Build player app"
+runs:
+  using: "composite"
+  steps:
+    - name: format:check
+      run: pnpm format:check
+      shell: bash
+
+    - name: lint
+      run: pnpm lint
+      shell: bash
+
+    - name: tsc
+      run: pnpm ts:check
+      shell: bash
+
+    - name: build
+      run: pnpm build
+      shell: bash
