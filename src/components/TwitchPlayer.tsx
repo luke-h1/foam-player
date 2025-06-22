@@ -248,7 +248,6 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
             width,
             height,
             autoplay: true,
-            controls: false,
           });
 
           playerRef.current = player;
