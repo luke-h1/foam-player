@@ -1,0 +1,78 @@
+.container {
+  position: relative;
+  overflow: hidden;
+}
+
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.errorText {
+  color: #ff0000;
+  text-align: center;
+}
+
+.mouseEventOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  background: transparent;
+  cursor: none;
+}
+
+.controlsOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.controlsOverlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.controlsOverlayHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.playPauseButton {
+  width: 80px;
+  height: 80px;
+  color: white;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  border: none;
+  font-size: 24px;
+}
+
+.playPauseButton:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.playerContainer {
+  width: 100%;
+  height: 100%;
+}
