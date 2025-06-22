@@ -26,6 +26,10 @@ interface TwitchPlayerOptions {
   collection?: string;
   width?: number | string;
   height?: number | string;
+  autoplay?: boolean;
+  muted?: boolean;
+  time?: string; // only available for vods
+  controls?: boolean;
 }
 
 interface TwitchPlayerInstance {
@@ -243,6 +247,8 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
             collection,
             width,
             height,
+            autoplay: true,
+            controls: false,
           });
 
           playerRef.current = player;
