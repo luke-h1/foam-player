@@ -129,8 +129,8 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
     };
 
     const handleMouseLeave = () => {
-      setShowControls(false);
       clearHideTimeout();
+      setShowControls(false);
     };
 
     const handlePlayPause = () => {
@@ -141,7 +141,6 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
           playerRef.current.pause();
         }
       }
-      handleMouseActivity();
     };
 
     useImperativeHandle(
@@ -248,6 +247,9 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
             width,
             height,
             autoplay: true,
+            muted: false,
+            controls: false,
+            // time: "0h0m0s",
           });
 
           playerRef.current = player;
@@ -257,6 +259,12 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
             setError(null);
             setIsPlayerReady(true);
             setIsPaused(false);
+            try {
+              player.setVolume(0.5);
+              player.play();
+            } catch (error) {
+              console.error("Error setting up player:", error);
+            }
             onReady?.();
           });
 
@@ -279,6 +287,16 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
             const currentTime = player.getCurrentTime();
             onSeek?.(currentTime);
           });
+
+          player.addEventListener("offline", () => {
+            console.log("Stream is offline");
+            setError("Stream is currently offline");
+          });
+
+          player.addEventListener("online", () => {
+            console.log("Stream is online");
+            setError(null);
+          });
         } catch (err) {
           setError("Failed to initialize Twitch player");
           setIsLoading(false);
@@ -289,7 +307,7 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
 
       if (!window.Twitch) {
         const script = document.createElement("script");
-        script.src = "https://embed.twitch.tv/embed/v1.js";
+        script.src = "https://player.twitch.tv/js/embed/v1.js";
         script.onload = loadTwitchPlayer;
         script.onerror = () => {
           setError("Failed to load Twitch embed script");
@@ -345,7 +363,7 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
         }}
         onMouseMove={handleMouseActivity}
         onMouseLeave={handleMouseLeave}
-        onClick={handleMouseActivity}
+        // Remove onClick handler to prevent interference
       >
         {isLoading && <LoadingOverlay />}
 
@@ -355,20 +373,22 @@ export const TwitchPlayer = forwardRef<TwitchPlayerRef, TwitchPlayerProps>(
         />
 
         {isPlayerReady && (
-          <>
-            <div
-              className={`${styles.controlsOverlay} ${
-                showControls ? styles.controlsOverlayVisible : ""
-              }`}
+          <div
+            className={`${styles.controlsOverlay} ${
+              showControls ? styles.controlsOverlayVisible : ""
+            }`}
+          >
+            <button
+              onClick={handlePlayPause}
+              className={styles.playPauseButton}
             >
-              <button
-                onClick={handlePlayPause}
-                className={styles.playPauseButton}
-              >
-                {isPaused ? <FaPlay /> : <FaPause />}
-              </button>
-            </div>
-          </>
+              {isPaused ? (
+                <FaPlay color="#000" width={30} height={30} />
+              ) : (
+                <FaPause color="#000" width={30} height={30} />
+              )}
+            </button>
+          </div>
         )}
       </div>
     );

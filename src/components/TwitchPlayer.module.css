@@ -38,7 +38,6 @@
   z-index: 10;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease-in-out;
 }
 
 .controlsOverlayVisible {
@@ -54,22 +53,9 @@
 .playPauseButton {
   width: 80px;
   height: 80px;
-  color: white;
   display: flex;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 50%;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  outline: none;
-  border: none;
-  font-size: 24px;
-}
-
-.playPauseButton:hover {
-  transform: scale(1.1);
-  background-color: rgba(0, 0, 0, 0.9);
 }
 
 .playerContainer {
